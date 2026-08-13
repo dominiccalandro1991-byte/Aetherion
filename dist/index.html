@@ -7,9 +7,10 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Orbitron:wght@500;600;700&display=swap" rel="stylesheet" />
-  <link rel="icon" type="image/jpeg" href="/Aetherion/brand/aetherion-ui-primary.jpeg" />
-  <script type="module" crossorigin src="/Aetherion/assets/index-DCnHIfgx.js"></script>
-  <link rel="stylesheet" crossorigin href="/Aetherion/assets/index-BlFL7TV8.css">
+  <link rel="icon" type="image/png" href="/Aetherion/favicon.png" />
+  <link rel="apple-touch-icon" href="/Aetherion/brand/aetherion-app-icon.png" />
+  <script type="module" crossorigin src="/Aetherion/assets/index-D8C0YXib.js"></script>
+  <link rel="stylesheet" crossorigin href="/Aetherion/assets/index-D6_OEUAC.css">
 </head>
 <body class="aetherion-root">
   <!-- ── Header / Brand Lockup ─────────────────────────────────────────── -->
@@ -17,13 +18,20 @@
     <div class="header-inner">
       <a class="logo-horizontal" href="/Aetherion/" aria-label="Aetherion home">
         <img
-          class="logo-mark"
-          src="/Aetherion/brand/aetherion-ui-primary.jpeg"
-          alt="Aetherion mark"
-          width="64"
-          height="64"
+          class="logo-header-lockup"
+          src="/Aetherion/brand/aetherion-header-logo.png"
+          alt="Aetherion — Forge Worlds. Shape Destiny."
+          height="56"
         />
-        <div class="logo-text">
+        <img
+          class="logo-mark logo-mark-fallback"
+          src="/Aetherion/brand/aetherion-emblem.png"
+          alt=""
+          width="48"
+          height="48"
+          aria-hidden="true"
+        />
+        <div class="logo-text logo-text-fallback">
           <span class="logo-wordmark">AETHERION</span>
           <span class="logo-tagline">Forge Worlds. Shape Destiny.</span>
         </div>
@@ -39,7 +47,10 @@
   <main class="dashboard">
     <!-- ── Runtime Control Panel ───────────────────────────────────────── -->
     <section class="control-panel card">
-      <h2 class="section-title">Runtime Control</h2>
+      <div class="control-title-row">
+        <img class="app-icon-squircle" src="/Aetherion/brand/aetherion-app-icon.png" alt="Aetherion" width="40" height="40" />
+        <h2 class="section-title">Runtime Control</h2>
+      </div>
       <div class="control-row">
         <button type="button" class="btn btn-primary" id="btn-start">Start Simulation</button>
         <button type="button" class="btn btn-ghost" id="btn-pause" disabled>Pause</button>
