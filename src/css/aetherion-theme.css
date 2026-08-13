@@ -1,0 +1,272 @@
+/**
+ * AETHERION Design System — Theme Tokens & Logo Lockups
+ * Official frontend styling foundation
+ * Colors from 14-point Logo Direction Brief
+ */
+
+/* ==========================================================================
+   1. DESIGN TOKENS
+   ========================================================================== */
+:root {
+  /* Base */
+  --aetherion-bg-void: #0B0F14;           /* Deep Void Black */
+  --aetherion-bg-elevated: #111820;       /* Slightly lifted surface */
+  --aetherion-bg-overlay: rgba(11, 15, 20, 0.85);
+
+  /* Primary Accent / Energy */
+  --aetherion-accent-cyan: #00F0FF;       /* Aether Cyan */
+  --aetherion-accent-cyan-dim: #00B8C4;
+  --aetherion-accent-cyan-glow: rgba(0, 240, 255, 0.35);
+
+  /* Secondary Accent / Rings */
+  --aetherion-accent-gold: #FFB800;       /* Living Gold */
+  --aetherion-accent-gold-dim: #C99000;
+  --aetherion-accent-gold-glow: rgba(255, 184, 0, 0.3);
+
+  /* Foreground / Text */
+  --aetherion-fg-white: #FFFFFF;          /* Crystalline White */
+  --aetherion-fg-muted: rgba(255, 255, 255, 0.72);
+  --aetherion-fg-subtle: rgba(255, 255, 255, 0.48);
+
+  /* Borders & dividers */
+  --aetherion-border: rgba(0, 240, 255, 0.18);
+  --aetherion-border-gold: rgba(255, 184, 0, 0.25);
+
+  /* Typography scale (relative) */
+  --aetherion-font-sans: "Inter", "Segoe UI", system-ui, -apple-system, sans-serif;
+  --aetherion-font-display: "Orbitron", "Inter", system-ui, sans-serif;
+
+  /* Spacing & sizing */
+  --aetherion-safe-zone: 12%;             /* Official safe-zone padding */
+  --aetherion-min-scale: 64px;            /* Minimum lockup dimension */
+
+  /* Motion */
+  --aetherion-ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --aetherion-duration: 280ms;
+}
+
+/* ==========================================================================
+   2. GLOBAL BASE (optional application)
+   ========================================================================== */
+.aetherion-root,
+[data-theme="aetherion"] {
+  background-color: var(--aetherion-bg-void);
+  color: var(--aetherion-fg-white);
+  font-family: var(--aetherion-font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ==========================================================================
+   3. COMPONENT LOCKUPS
+   ========================================================================== */
+
+/*
+ * Horizontal Header
+ * Use for top navigation / app header
+ * Safe zone applied via padding; scales responsively with min-width guard
+ */
+.logo-horizontal {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: var(--aetherion-safe-zone);
+  min-width: var(--aetherion-min-scale);
+  min-height: calc(var(--aetherion-min-scale) * 0.45);
+  box-sizing: border-box;
+  background: transparent;
+  color: var(--aetherion-fg-white);
+  text-decoration: none;
+  transition: opacity var(--aetherion-duration) var(--aetherion-ease),
+              filter var(--aetherion-duration) var(--aetherion-ease);
+}
+
+.logo-horizontal:hover {
+  opacity: 0.92;
+  filter: drop-shadow(0 0 8px var(--aetherion-accent-cyan-glow));
+}
+
+.logo-horizontal .logo-mark {
+  flex-shrink: 0;
+  width: 2.25rem;
+  height: 2.25rem;
+  min-width: 1.75rem;
+  min-height: 1.75rem;
+}
+
+.logo-horizontal .logo-wordmark {
+  font-family: var(--aetherion-font-display);
+  font-weight: 600;
+  font-size: clamp(1rem, 2.5vw, 1.375rem);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  background: linear-gradient(
+    105deg,
+    var(--aetherion-fg-white) 0%,
+    var(--aetherion-accent-cyan) 55%,
+    var(--aetherion-accent-gold) 100%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/*
+ * Square Icon / App Icon (squircle)
+ * Primary mark for home screens, favicons, splash icons
+ * Strict 1:1 aspect, safe zone, hard minimum size
+ */
+.app-icon-squircle {
+  display: block;
+  width: clamp(var(--aetherion-min-scale), 18vw, 180px);
+  height: clamp(var(--aetherion-min-scale), 18vw, 180px);
+  min-width: var(--aetherion-min-scale);
+  min-height: var(--aetherion-min-scale);
+  aspect-ratio: 1 / 1;
+  padding: var(--aetherion-safe-zone);
+  box-sizing: border-box;
+  border-radius: 22.5%; /* iOS-style continuous corner / squircle approximation */
+  background: var(--aetherion-bg-void);
+  background-image:
+    radial-gradient(
+      ellipse at 30% 25%,
+      var(--aetherion-accent-cyan-glow) 0%,
+      transparent 55%
+    ),
+    radial-gradient(
+      ellipse at 75% 80%,
+      var(--aetherion-accent-gold-glow) 0%,
+      transparent 50%
+    );
+  border: 1px solid var(--aetherion-border);
+  overflow: hidden;
+  position: relative;
+}
+
+.app-icon-squircle .icon-core {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+}
+
+.app-icon-squircle::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.06);
+  pointer-events: none;
+}
+
+/*
+ * Stacked Splash
+ * Vertical lockup for full-screen splash / marketing hero
+ */
+.logo-stacked {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1.25rem;
+  padding: var(--aetherion-safe-zone);
+  min-width: var(--aetherion-min-scale);
+  min-height: calc(var(--aetherion-min-scale) * 1.6);
+  box-sizing: border-box;
+  text-align: center;
+}
+
+.logo-stacked .logo-mark {
+  width: clamp(4rem, 22vw, 7.5rem);
+  height: clamp(4rem, 22vw, 7.5rem);
+  min-width: 3.5rem;
+  min-height: 3.5rem;
+}
+
+.logo-stacked .logo-wordmark {
+  font-family: var(--aetherion-font-display);
+  font-weight: 700;
+  font-size: clamp(1.5rem, 5vw, 2.75rem);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--aetherion-fg-white);
+  text-shadow:
+    0 0 24px var(--aetherion-accent-cyan-glow),
+    0 0 48px var(--aetherion-accent-gold-glow);
+}
+
+.logo-stacked .logo-tagline {
+  font-size: clamp(0.75rem, 2vw, 0.9375rem);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--aetherion-fg-muted);
+  margin-top: 0.25rem;
+}
+
+/*
+ * Tagline Footer
+ * Compact footer treatment for marketing pages / about screens
+ */
+.tagline-block {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  padding: var(--aetherion-safe-zone);
+  min-width: var(--aetherion-min-scale);
+  box-sizing: border-box;
+  text-align: center;
+  border-top: 1px solid var(--aetherion-border);
+}
+
+.tagline-block .tagline-text {
+  font-size: 0.8125rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--aetherion-fg-subtle);
+}
+
+.tagline-block .tagline-accent {
+  display: inline-block;
+  width: 2.5rem;
+  height: 2px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--aetherion-accent-cyan),
+    var(--aetherion-accent-gold),
+    transparent
+  );
+  border-radius: 1px;
+}
+
+/* ==========================================================================
+   4. UTILITY HELPERS
+   ========================================================================== */
+.aetherion-glow-cyan {
+  box-shadow: 0 0 20px var(--aetherion-accent-cyan-glow);
+}
+
+.aetherion-glow-gold {
+  box-shadow: 0 0 20px var(--aetherion-accent-gold-glow);
+}
+
+.aetherion-text-gradient {
+  background: linear-gradient(
+    105deg,
+    var(--aetherion-fg-white),
+    var(--aetherion-accent-cyan) 50%,
+    var(--aetherion-accent-gold)
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Ensure lockups never collapse below official minimum */
+.logo-horizontal,
+.app-icon-squircle,
+.logo-stacked,
+.tagline-block {
+  min-width: var(--aetherion-min-scale);
+}
