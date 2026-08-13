@@ -24,17 +24,20 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: '22'
           cache: 'npm'
 
       - name: Install dependencies
-        run: npm ci
+        run: |
+          npm install --no-fund --no-audit
+          test -x node_modules/.bin/vitest
+          test -x node_modules/.bin/vite
 
       - name: Run unit tests (quality gate)
-        run: npm test
+        run: npx vitest run
 
       - name: Build production bundle
-        run: npm run build
+        run: npx vite build
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
