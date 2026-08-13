@@ -68,3 +68,9 @@ Open the printed local URL (default `http://localhost:5173`).
 - Runtime controls: Start / Pause / Manual Tick / Reset bound to `AetherionRuntime`
 - Telemetry cards for Economic Stability, Genetics, TOC, Law, Anti-Singularity, Seed Cascade, Industrial Controls, AFM
 - Live ALCOA+ / activity feed
+
+## GitHub Pages
+
+Live dashboard: **https://dominiccalandro1991-byte.github.io/Aetherion/**
+
+Deployment is automated via `.github/workflows/deploy.yml` on every push to `main` (tests must pass before deploy).
