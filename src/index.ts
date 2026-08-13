@@ -4,6 +4,8 @@
  */
 
 export * from './foundation/index.js';
+export { AetherionRuntime } from './core/orchestrator.js';
+export type { RuntimeState, RuntimeStatus } from './core/orchestrator.js';
 
 export const AETHERION_META = {
   name: 'Aetherion',
