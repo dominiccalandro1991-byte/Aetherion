@@ -1,5 +1,10 @@
+/**
+ * Aetherion Foundation — Shared Types
+ * Canonical interfaces used across the 14 foundation engines.
+ */
+
 export type UUID = string;
-export type Timestamp = number;
+export type Timestamp = number; // Unix ms
 
 export interface ActorRef {
   kind: 'Player' | 'SystemComponent' | 'EnforcementAgent' | 'AIAgent' | 'AmendmentAuthority';

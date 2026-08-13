@@ -1,6 +1,8 @@
 /**
  * Aetherion — Forge Worlds. Shape Destiny.
+ * Main entry point for the game application foundation layer.
  */
+
 export * from './foundation/index.js';
 
 export const AETHERION_META = {

@@ -1,3 +1,8 @@
+/**
+ * Aetherion Foundation Engines — Public Registry
+ * All 14 systems are exported from this barrel.
+ */
+
 export * from './types.js';
 export * from './01-retention-proxies.js';
 export * from './02-economic-stability.js';
@@ -14,6 +19,7 @@ export * from './12-server-metrics.js';
 export * from './13-industrial-controls.js';
 export * from './14-toc-bottleneck.js';
 
+/** Convenience registry of engine names for discovery */
 export const FOUNDATION_ENGINES = [
   'RetentionProxies',
   'EconomicStability',
