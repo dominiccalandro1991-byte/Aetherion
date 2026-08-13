@@ -1,0 +1,16 @@
+{
+  "name": "aetherion",
+  "version": "0.1.0",
+  "description": "Aetherion — Forge Worlds. Shape Destiny. Official game application repository.",
+  "type": "module",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "typecheck": "tsc --noEmit"
+  },
+  "private": true,
+  "devDependencies": {
+    "typescript": "^5.5.0",
+    "@types/node": "^20.0.0"
+  }
+}
