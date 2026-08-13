@@ -543,3 +543,26 @@ body {
     max-width: min(280px, 70vw);
   }
 }
+
+/* ── Planet & Biome Canvas Viewport ─────────────────────────────────────── */
+.planet-viewport {
+  padding-bottom: 1rem;
+}
+
+.canvas-frame {
+  position: relative;
+  width: 100%;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid var(--aetherion-border);
+  background: radial-gradient(ellipse at center, #111820 0%, #0B0F14 70%);
+  box-shadow: inset 0 0 40px rgba(0, 240, 255, 0.06);
+}
+
+#planet-canvas {
+  display: block;
+  width: 100%;
+  height: auto;
+  min-height: 220px;
+  cursor: crosshair;
+}

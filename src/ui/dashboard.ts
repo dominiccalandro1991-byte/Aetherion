@@ -3,8 +3,16 @@
  */
 
 import { AetherionRuntime } from '../core/orchestrator.js';
+import { PlanetCanvas } from './canvas.js';
 
 const runtime = new AetherionRuntime();
+
+const planetCanvasEl = document.getElementById('planet-canvas') as HTMLCanvasElement | null;
+const planetView = planetCanvasEl
+  ? new PlanetCanvas(planetCanvasEl, runtime, { maxOrganisms: 64, gridSize: 14 })
+  : null;
+planetView?.start();
+
 const MAX_LOG_LINES = 80;
 
 // ── DOM refs ───────────────────────────────────────────────────────────────
@@ -195,6 +203,7 @@ function render(): void {
 btnStart.addEventListener('click', () => {
   runtime.start(200);
   appendLog('RUNTIME', 'Simulation started (200 ms interval)');
+  planetView?.refresh();
   render();
 });
 
@@ -207,6 +216,7 @@ btnPause.addEventListener('click', () => {
 btnTick.addEventListener('click', () => {
   runtime.tick();
   appendLog('TICK', `Manual tick → T-${runtime.getState().tick}`);
+  planetView?.refresh();
   render();
 });
 
@@ -224,5 +234,6 @@ setInterval(() => {
 }, 250);
 
 // Initial paint
-appendLog('SYSTEM', 'Aetherion dashboard online · 14 foundation engines loaded');
+appendLog('SYSTEM', 'Aetherion dashboard online · 14 foundation engines + planet canvas');
+planetView?.refresh();
 render();
