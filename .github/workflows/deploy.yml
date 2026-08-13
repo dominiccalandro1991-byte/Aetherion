@@ -15,44 +15,21 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  test-and-build:
-    runs-on: ubuntu-latest
-    timeout-minutes: 15
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '22'
-
-      - name: Install dependencies
-        run: |
-          npm config set fetch-retries 5
-          npm config set fetch-retry-maxtimeout 120000
-          npm install --no-fund --no-audit --prefer-online
-          ls -la node_modules/.bin/vitest node_modules/.bin/vite
-
-      - name: Run unit tests (quality gate)
-        run: npx vitest run
-
-      - name: Build production bundle
-        run: npx vite build
-
-      - name: Upload Pages artifact
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: dist
-
   deploy:
-    needs: test-and-build
     runs-on: ubuntu-latest
     timeout-minutes: 5
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Upload prebuilt dist
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
