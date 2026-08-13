@@ -16,6 +16,8 @@ describe('AetherionRuntime Orchestrator', () => {
     const state = runtime.getState();
     expect(state.tick).toBe(2);
     expect(state.seedTotal).toBeGreaterThan(0);
+    expect(runtime.genetics.genomes.length).toBeGreaterThan(0);
+    expect(runtime.genetics.meanFitness).toBeGreaterThan(0);
   });
 
   it('start / pause / stop lifecycle', () => {

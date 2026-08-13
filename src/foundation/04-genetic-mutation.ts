@@ -152,6 +152,9 @@ export class GeneticPopulation {
   }
 
   nextGeneration(rng: () => number = Math.random): void {
+    if (this.genomes.length === 0) {
+      this.seedInitialPopulation(Math.min(20, this.config.populationSize), rng);
+    }
     this.genomes.sort((a, b) => b.fitness - a.fitness);
     const next: Genome[] = [];
     for (let i = 0; i < this.config.eliteCount && i < this.genomes.length; i++) {
@@ -183,6 +186,83 @@ export class GeneticPopulation {
     }
     this.genomes = next;
     this.generation++;
+  }
+
+
+  /** Create a randomized gene set for a new organism */
+  createRandomGenome(generation = 0, rng: () => number = Math.random): Genome {
+    const genes: Gene[] = [];
+    const labels = [
+      'CombatPower', 'Resilience', 'TradeAffinity', 'CascadeBias',
+      'ResourceEfficiency', 'Loyalty', 'ExplorationDrive', 'MutationTolerance',
+    ];
+    for (let i = 0; i < this.config.chromosomeLength; i++) {
+      const isDiscrete = i >= this.config.continuousGeneCount;
+      genes.push({
+        id: i,
+        type: isDiscrete ? 'Discrete' : 'Continuous',
+        value: isDiscrete
+          ? Math.floor(rng() * 5)
+          : Math.min(1, Math.max(0, 0.35 + rng() * 0.4)),
+        min: 0,
+        max: isDiscrete ? 4 : 1,
+        mutationSigma: isDiscrete ? 0.5 : 0.08,
+        label: labels[i % labels.length] + (i >= labels.length ? `_${i}` : ''),
+      });
+    }
+    return {
+      id: crypto.randomUUID(),
+      generation,
+      genes,
+      parentIds: [null, null],
+      fitness: 0,
+      rawScores: [],
+      age: 0,
+      lineageHash: Math.floor(rng() * 0xffffffff) >>> 0,
+      lastEvaluatedAt: 0,
+      isElite: false,
+      isInvalid: false,
+    };
+  }
+
+  /** Populate with N base organisms (Generation 1 baseline after first evaluation) */
+  seedInitialPopulation(count = 20, rng: () => number = Math.random): void {
+    const n = Math.max(1, Math.min(count, this.config.populationSize));
+    this.genomes = [];
+    this.generation = 0;
+    this.meanFitness = 0;
+    this.geneVariance = 0;
+    for (let i = 0; i < n; i++) {
+      this.genomes.push(this.createRandomGenome(0, rng));
+    }
+  }
+
+  /** Spawn genomes from cascade mature seeds (capped by populationSize) */
+  injectFromSeeds(seedCount: number, rng: () => number = Math.random): number {
+    if (seedCount <= 0) return 0;
+    let added = 0;
+    const room = this.config.populationSize - this.genomes.length;
+    const toAdd = Math.min(seedCount, Math.max(0, room));
+    for (let i = 0; i < toAdd; i++) {
+      this.genomes.push(this.createRandomGenome(this.generation, rng));
+      added++;
+    }
+    return added;
+  }
+
+  /**
+   * Full generational step: evaluate fitness, then advance population.
+   * Safe when empty — auto-seeds a minimal cohort first.
+   */
+  step(
+    telemetryFn: (g: Genome) => number[] = () => [0.5, 0.5, 0.5, 0.5, 0.5, 0.5],
+    rng: () => number = Math.random
+  ): void {
+    if (this.genomes.length === 0) {
+      this.seedInitialPopulation(Math.min(20, this.config.populationSize), rng);
+    }
+    this.evaluateAll(telemetryFn);
+    this.nextGeneration(rng);
   }
 
   private tournamentSelect(rng: () => number): Genome {

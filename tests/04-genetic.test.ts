@@ -64,3 +64,32 @@ describe('04 Genetic Mutation', () => {
     expect(pop.genomes.length).toBe(16);
   });
 });
+
+  it('seedInitialPopulation creates base cohort', () => {
+    const pop = new GeneticPopulation({ populationSize: 32, eliteCount: 4 });
+    pop.seedInitialPopulation(20);
+    expect(pop.genomes.length).toBe(20);
+    expect(pop.genomes.every((g) => g.genes.length > 0)).toBe(true);
+    pop.evaluateAll(() => [0.7, 0.6, 0.5, 0.4, 0.3, 0.2]);
+    expect(pop.meanFitness).toBeGreaterThan(0);
+    pop.nextGeneration();
+    expect(pop.generation).toBe(1);
+    expect(pop.genomes.length).toBe(32);
+  });
+
+  it('step auto-seeds when empty', () => {
+    const pop = new GeneticPopulation({ populationSize: 16, eliteCount: 2 });
+    expect(pop.genomes.length).toBe(0);
+    pop.step(() => [0.6, 0.5, 0.5, 0.5, 0.4, 0.3]);
+    expect(pop.genomes.length).toBe(16);
+    expect(pop.generation).toBe(1);
+    expect(pop.meanFitness).toBeGreaterThanOrEqual(0);
+  });
+
+  it('injectFromSeeds respects population cap', () => {
+    const pop = new GeneticPopulation({ populationSize: 10, eliteCount: 2 });
+    pop.seedInitialPopulation(8);
+    const added = pop.injectFromSeeds(5);
+    expect(added).toBe(2);
+    expect(pop.genomes.length).toBe(10);
+  });

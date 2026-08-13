@@ -70,6 +70,16 @@ export class AetherionRuntime {
       fractionalAccumulator: 0,
       neighbors: [],
     });
+    // Auto-seed Engine 04 with 20 base genomes (Generation 0 → advances on first step)
+    this.genetics.seedInitialPopulation(20);
+    this.genetics.evaluateAll(() => [
+      0.55 + Math.random() * 0.3,
+      0.5 + Math.random() * 0.3,
+      0.6 + Math.random() * 0.25,
+      0.45 + Math.random() * 0.3,
+      0.4 + Math.random() * 0.3,
+      0.5 + Math.random() * 0.3,
+    ]);
   }
 
   start(intervalMs = 100): void {
@@ -121,18 +131,30 @@ export class AetherionRuntime {
       }
     }
 
-    // 2. Genetic evaluation (lightweight telemetry)
-    this.genetics.evaluateAll(() => [
-      0.6 + Math.random() * 0.3,
-      0.5 + Math.random() * 0.3,
-      0.7,
-      0.55,
-      0.4,
-      0.8,
-    ]);
-    if (this.tickCount % 10 === 0) {
-      this.genetics.nextGeneration();
+    // 2. Genetic evaluation + generational step
+    // Seed-to-genome pipeline: mature cascade growth injects new organisms
+    let cascadeSpawned = 0;
+    for (const node of this.nodes.values()) {
+      // use fractional mature growth as spawn signal (at least 1 when cascade added seeds)
+      cascadeSpawned += Math.max(0, Math.floor(node.S_mature / 4));
     }
+    // Cap injection per tick so population grows smoothly toward populationSize
+    const injectCount = Math.min(2, Math.max(0, cascadeSpawned > 0 ? 1 : 0));
+    if (injectCount > 0) {
+      this.genetics.injectFromSeeds(injectCount);
+    }
+
+    const telemetry = () => [
+      0.55 + Math.random() * 0.35,
+      0.5 + Math.random() * 0.35,
+      0.6 + Math.random() * 0.3,
+      0.45 + Math.random() * 0.35,
+      0.4 + Math.random() * 0.35,
+      0.5 + Math.random() * 0.35,
+    ];
+    // Evaluate every tick; advance generation every tick so UI metrics move live
+    this.genetics.evaluateAll(telemetry);
+    this.genetics.nextGeneration();
 
     // 3. Economic stability tick
     this.economy.tick(this.tickCount);
