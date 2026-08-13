@@ -2,7 +2,7 @@
  * Engine 11 — ALCOA+ Audit Trails
  */
 
-import { createHash } from 'crypto';
+import { sha256Hex } from './hash.js';
 import type { UUID, Timestamp, ActorRef, HLC } from './types.js';
 
 export type TrailDomain =
@@ -52,7 +52,7 @@ export class ALCOATrailStore {
     const last = list[list.length - 1];
     const previousHash = last ? last.payloadHash : ZERO_HASH; // simplified
     const payloadBytes = JSON.stringify(payload);
-    const payloadHash = createHash('sha256').update(payloadBytes).digest('hex');
+    const payloadHash = sha256Hex(payloadBytes);
     const hlc = this.advanceHlc(Date.now());
 
     const entry: TrailEntry = {

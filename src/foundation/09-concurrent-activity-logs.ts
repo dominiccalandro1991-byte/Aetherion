@@ -3,7 +3,7 @@
  * Append-only, hash-chained, HLC-ordered partitions.
  */
 
-import { createHash } from 'crypto';
+import { sha256Hex } from './hash.js';
 import type { UUID, Timestamp, HLC } from './types.js';
 
 export type ActorType =
@@ -49,7 +49,7 @@ export interface ActivityLogEntry {
 const GENESIS_HASH = '0'.repeat(64);
 
 function sha256(data: string): string {
-  return createHash('sha256').update(data).digest('hex');
+  return sha256Hex(data);
 }
 
 function canonicalJson(obj: Record<string, unknown>): string {

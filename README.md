@@ -53,3 +53,18 @@ npx tsc --noEmit   # type-check all engines
 ## License
 
 Private / UNLICENSED – Aetherion project.
+
+
+## Live Dashboard
+
+```bash
+npm install
+npm run dev
+```
+
+Open the printed local URL (default `http://localhost:5173`).
+
+- Header uses the primary UI logo (`brand/aetherion-ui-primary.jpeg` / IMG_4588)
+- Runtime controls: Start / Pause / Manual Tick / Reset bound to `AetherionRuntime`
+- Telemetry cards for Economic Stability, Genetics, TOC, Law, Anti-Singularity, Seed Cascade, Industrial Controls, AFM
+- Live ALCOA+ / activity feed

@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="aetherion">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Aetherion — Forge Worlds. Shape Destiny.</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Orbitron:wght@500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/src/css/aetherion-theme.css" />
+  <link rel="stylesheet" href="/src/css/dashboard.css" />
+  <link rel="icon" type="image/jpeg" href="/brand/aetherion-ui-primary.jpeg" />
+</head>
+<body class="aetherion-root">
+  <!-- ── Header / Brand Lockup ─────────────────────────────────────────── -->
+  <header class="app-header">
+    <div class="header-inner">
+      <a class="logo-horizontal" href="/" aria-label="Aetherion home">
+        <img
+          class="logo-mark"
+          src="/brand/aetherion-ui-primary.jpeg"
+          alt="Aetherion mark"
+          width="64"
+          height="64"
+        />
+        <div class="logo-text">
+          <span class="logo-wordmark">AETHERION</span>
+          <span class="logo-tagline">Forge Worlds. Shape Destiny.</span>
+        </div>
+      </a>
+      <div class="header-status" id="header-status">
+        <span class="status-dot" id="status-dot" data-status="idle"></span>
+        <span id="status-label">IDLE</span>
+        <span class="tick-badge" id="tick-badge">T-0</span>
+      </div>
+    </div>
+  </header>
+
+  <main class="dashboard">
+    <!-- ── Runtime Control Panel ───────────────────────────────────────── -->
+    <section class="control-panel card">
+      <h2 class="section-title">Runtime Control</h2>
+      <div class="control-row">
+        <button type="button" class="btn btn-primary" id="btn-start">Start Simulation</button>
+        <button type="button" class="btn btn-ghost" id="btn-pause" disabled>Pause</button>
+        <button type="button" class="btn btn-ghost" id="btn-tick">Manual Tick</button>
+        <button type="button" class="btn btn-danger" id="btn-reset">Reset</button>
+      </div>
+      <div class="control-meta">
+        <div class="meta-item"><span class="meta-label">Tick</span><span class="meta-value" id="meta-tick">0</span></div>
+        <div class="meta-item"><span class="meta-label">Seeds</span><span class="meta-value" id="meta-seeds">—</span></div>
+        <div class="meta-item"><span class="meta-label">CSS</span><span class="meta-value" id="meta-css">—</span></div>
+        <div class="meta-item"><span class="meta-label">SRI max</span><span class="meta-value" id="meta-sri">—</span></div>
+        <div class="meta-item"><span class="meta-label">Alerts</span><span class="meta-value" id="meta-alerts">0</span></div>
+        <div class="meta-item"><span class="meta-label">Critical AFMs</span><span class="meta-value" id="meta-afms">—</span></div>
+      </div>
+    </section>
+
+    <!-- ── Engine Telemetry Grid ───────────────────────────────────────── -->
+    <section class="telemetry-grid">
+      <!-- Economic Stability -->
+      <article class="card engine-card" data-engine="economic">
+        <header class="card-header">
+          <h3>Economic Stability</h3>
+          <span class="engine-id">02</span>
+        </header>
+        <div class="gauge-wrap">
+          <div class="gauge" id="econ-gauge">
+            <div class="gauge-fill" id="econ-gauge-fill"></div>
+          </div>
+          <div class="gauge-value" id="econ-css-value">—</div>
+        </div>
+        <p class="card-sub">Composite Stability Score</p>
+        <ul class="alert-list" id="econ-alerts"></ul>
+      </article>
+
+      <!-- Genetic Mutation -->
+      <article class="card engine-card" data-engine="genetic">
+        <header class="card-header">
+          <h3>Genetic Mutation</h3>
+          <span class="engine-id">04</span>
+        </header>
+        <div class="stat-grid">
+          <div class="stat"><span class="stat-label">Generation</span><span class="stat-value" id="gen-generation">0</span></div>
+          <div class="stat"><span class="stat-label">Mean Fitness</span><span class="stat-value" id="gen-fitness">—</span></div>
+          <div class="stat"><span class="stat-label">Population</span><span class="stat-value" id="gen-pop">—</span></div>
+          <div class="stat"><span class="stat-label">Gene Variance</span><span class="stat-value" id="gen-variance">—</span></div>
+        </div>
+      </article>
+
+      <!-- TOC Bottleneck -->
+      <article class="card engine-card" data-engine="toc">
+        <header class="card-header">
+          <h3>TOC Bottleneck</h3>
+          <span class="engine-id">14</span>
+        </header>
+        <div class="stat-grid">
+          <div class="stat"><span class="stat-label">Phase</span><span class="stat-value" id="toc-phase">Identify</span></div>
+          <div class="stat"><span class="stat-label">Constraint</span><span class="stat-value" id="toc-constraint">—</span></div>
+          <div class="stat full"><span class="stat-label">CIS</span><span class="stat-value" id="toc-cis">—</span></div>
+        </div>
+        <div class="elevation-plan" id="toc-plan">No active elevation plan</div>
+      </article>
+
+      <!-- Law Enforcement -->
+      <article class="card engine-card" data-engine="law">
+        <header class="card-header">
+          <h3>Law Enforcement</h3>
+          <span class="engine-id">05</span>
+        </header>
+        <div class="threat-meter">
+          <div class="threat-bar" id="law-threat-bar"></div>
+        </div>
+        <div class="stat-grid">
+          <div class="stat"><span class="stat-label">Units</span><span class="stat-value" id="law-units">0</span></div>
+          <div class="stat"><span class="stat-label">Cases</span><span class="stat-value" id="law-cases">0</span></div>
+          <div class="stat full"><span class="stat-label">Threat Level</span><span class="stat-value" id="law-threat">LOW</span></div>
+        </div>
+      </article>
+
+      <!-- Anti-Singularity -->
+      <article class="card engine-card" data-engine="anti-singularity">
+        <header class="card-header">
+          <h3>Anti-Singularity</h3>
+          <span class="engine-id">07</span>
+        </header>
+        <div class="stat-grid">
+          <div class="stat"><span class="stat-label">SRI max</span><span class="stat-value" id="as-sri">—</span></div>
+          <div class="stat"><span class="stat-label">Monitored</span><span class="stat-value" id="as-count">0</span></div>
+          <div class="stat full"><span class="stat-label">Highest State</span><span class="stat-value" id="as-state">Normal</span></div>
+        </div>
+      </article>
+
+      <!-- Seed Cascade -->
+      <article class="card engine-card" data-engine="seed">
+        <header class="card-header">
+          <h3>Seed Cascade</h3>
+          <span class="engine-id">06</span>
+        </header>
+        <div class="stat-grid">
+          <div class="stat"><span class="stat-label">Total Seeds</span><span class="stat-value" id="seed-total">—</span></div>
+          <div class="stat"><span class="stat-label">ρ₀</span><span class="stat-value">0.18</span></div>
+          <div class="stat full"><span class="stat-label">Nodes</span><span class="stat-value" id="seed-nodes">1</span></div>
+        </div>
+      </article>
+
+      <!-- Industrial Controls -->
+      <article class="card engine-card" data-engine="industrial">
+        <header class="card-header">
+          <h3>Industrial Controls</h3>
+          <span class="engine-id">13</span>
+        </header>
+        <div class="stat-grid">
+          <div class="stat"><span class="stat-label">Andon Events</span><span class="stat-value" id="ics-andon">0</span></div>
+          <div class="stat"><span class="stat-label">Open RED</span><span class="stat-value" id="ics-red">0</span></div>
+        </div>
+        <ul class="alert-list" id="ics-list"></ul>
+      </article>
+
+      <!-- FMEA / AFM -->
+      <article class="card engine-card" data-engine="afm">
+        <header class="card-header">
+          <h3>Atomic Failure Modes</h3>
+          <span class="engine-id">08</span>
+        </header>
+        <div class="stat-grid">
+          <div class="stat"><span class="stat-label">Critical</span><span class="stat-value" id="afm-critical">—</span></div>
+          <div class="stat"><span class="stat-label">Registry</span><span class="stat-value" id="afm-total">—</span></div>
+        </div>
+        <ul class="alert-list compact" id="afm-list"></ul>
+      </article>
+    </section>
+
+    <!-- ── Live Log & ALCOA Feed ────────────────────────────────────────── -->
+    <section class="log-panel card">
+      <header class="card-header">
+        <h3>Live ALCOA+ / Activity Feed</h3>
+        <span class="engine-id">09 · 11</span>
+      </header>
+      <div class="log-feed" id="log-feed" aria-live="polite"></div>
+    </section>
+  </main>
+
+  <footer class="app-footer tagline-block">
+    <div class="tagline-accent"></div>
+    <p class="tagline-text">Aetherion Foundation · 14 Engines Online</p>
+  </footer>
+
+  <script type="module" src="/src/ui/dashboard.ts"></script>
+</body>
+</html>
