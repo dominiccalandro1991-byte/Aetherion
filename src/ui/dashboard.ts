@@ -9,7 +9,7 @@ const runtime = new AetherionRuntime();
 
 const planetCanvasEl = document.getElementById('planet-canvas') as HTMLCanvasElement | null;
 const planetView = planetCanvasEl
-  ? new PlanetCanvas(planetCanvasEl, runtime, { maxOrganisms: 64, gridSize: 14 })
+  ? new PlanetCanvas(planetCanvasEl, runtime, { maxOrganisms: 209, gridSize: 14 })
   : null;
 planetView?.start();
 

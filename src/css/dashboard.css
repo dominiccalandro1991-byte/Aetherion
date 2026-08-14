@@ -566,3 +566,69 @@ body {
   min-height: 220px;
   cursor: crosshair;
 }
+
+/* Studio viewport grid (validated concept uiGrid) */
+.dashboard {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 16px;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 24px 16px 3rem;
+}
+
+.control-panel {
+  grid-column: 1 / 13;
+}
+
+.planet-viewport {
+  grid-column: 1 / 9;
+  grid-row: auto;
+}
+
+.telemetry-grid {
+  grid-column: 9 / 13;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  max-height: 640px;
+  overflow-y: auto;
+}
+
+.telemetry-grid .engine-card {
+  min-height: auto;
+}
+
+.log-panel {
+  grid-column: 1 / 13;
+}
+
+@media (max-width: 960px) {
+  .planet-viewport,
+  .telemetry-grid,
+  .control-panel,
+  .log-panel {
+    grid-column: 1 / 13;
+  }
+  .telemetry-grid {
+    max-height: none;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  }
+}
+
+/* Reactive severity borders */
+.engine-card[data-severity='high'] {
+  border-color: #ff4466;
+  box-shadow: 0 0 12px rgba(255, 68, 102, 0.25);
+  animation: severity-pulse 1.6s ease-in-out infinite;
+}
+
+.engine-card[data-severity='ok'] {
+  border-color: rgba(0, 240, 255, 0.35);
+}
+
+@keyframes severity-pulse {
+  0%, 100% { box-shadow: 0 0 8px rgba(255, 68, 102, 0.2); }
+  50% { box-shadow: 0 0 18px rgba(255, 68, 102, 0.45); }
+}
